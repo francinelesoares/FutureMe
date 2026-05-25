@@ -225,6 +225,7 @@ function login(){
         alert("Login realizado!");
         carregarCartasFirestore();
     })
+
     .catch((error) => {
 
     if(error.code === "auth/user-not-found"){
