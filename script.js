@@ -194,8 +194,26 @@ function cadastrar(){
         alert("Conta criada com sucesso!");
     })
     .catch((error) => {
-        alert(error.message);
-    });
+
+    if(error.code === "auth/email-already-in-use"){
+
+        alert("Esse email já está cadastrado!");
+
+    }else if(error.code === "auth/weak-password"){
+
+        alert("A senha precisa ter pelo menos 6 caracteres.");
+
+    }else if(error.code === "auth/invalid-email"){
+
+        alert("Digite um email válido.");
+
+    }else{
+
+        alert("Erro ao cadastrar.");
+
+    }
+
+});
 }
 
 // LOGIN
@@ -208,8 +226,26 @@ function login(){
         carregarCartasFirestore();
     })
     .catch((error) => {
-        alert(error.message);
-    });
+
+    if(error.code === "auth/user-not-found"){
+
+        alert("Usuário não encontrado.");
+
+    }else if(error.code === "auth/wrong-password"){
+
+        alert("Senha incorreta.");
+
+    }else if(error.code === "auth/invalid-email"){
+
+        alert("Email inválido.");
+
+    }else{
+
+        alert("Erro ao fazer login.");
+
+    }
+
+});
 }
 
 function atualizarTelaFirestore(){
