@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>FutureMe</title>
+
+    <!-- Fonte -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="container">
+
+    <div class="topo">
+    
+        <h1>FutureMe</h1>
+    
+        <button id="toggle-theme">
+            🌙
+            </button>
+    
+    </div>
+
+        <p class="subtitulo">
+            Converse com sua versão do futuro.
+        </p>
+        
+        <input type="email" id="email" placeholder="Seu email">
+        
+        <input type="password" id="senha" placeholder="Sua senha">
+        
+        <button onclick="cadastrar()">
+            Cadastrar
+        </button>
+        
+        <button onclick="login()">
+            Login
+        </button>
+        
+        <textarea id="mensagem" placeholder="Escreva sua mensagem..."></textarea>
+
+        <input id="data" type="date">
+
+        <button onclick="salvarCarta()">
+            Salvar carta
+        </button>
+
+        <div id="lista-cartas"></div>
+
+    </div>
+
+    <!-- FIREBASE -->
+    
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+    
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+    
+    <script src="script.js"></script>
+    
+    </body>
+    
+    </html>
