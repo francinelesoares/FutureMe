@@ -21,8 +21,10 @@ const auth = firebase.auth();
 // firestore
 const db = firebase.firestore();
 
-// carregar cartas
 
+
+
+// carregar cartas
 const lista = document.getElementById("lista-cartas");
 
 async function salvarCarta(){
@@ -73,6 +75,9 @@ async function salvarCarta(){
     }
 }
 
+
+
+//mostrar carta
 function mostrarCarta(carta){
 
     let novaCarta = document.createElement("div");
@@ -83,6 +88,10 @@ function mostrarCarta(carta){
         <h3>${carta.data}</h3>
         <p>${carta.mensagem}</p>
 
+        <button onclick="editarCarta('${carta.id}', '${carta.mensagem}')">
+            Editar
+        </button>
+
         <button onclick="removerCarta('${carta.id}')">
             Excluir
         </button>
@@ -90,6 +99,9 @@ function mostrarCarta(carta){
 
     lista.appendChild(novaCarta);
 }
+
+
+
 
 // carregar cartas
 async function carregarCartasFirestore(){
@@ -137,6 +149,9 @@ async function carregarCartasFirestore(){
 
 }
 
+
+
+
 // remover carta
 async function removerCarta(id){
 
@@ -145,28 +160,26 @@ async function removerCarta(id){
     atualizarTelaFirestore();
 }
 
+
+
+
 // editar carta
-function editarCarta(id){
+async function editarCarta(id, mensagemAtual){
 
-    let cartas = JSON.parse(localStorage.getItem("cartas")) || [];
-
-    let carta = cartas.find(carta => carta.id === id);
-
-    let novaMensagem = prompt(
-        "Edite sua mensagem:",
-        carta.mensagem
-    );
+    let novaMensagem = prompt("Edite sua mensagem:", mensagemAtual);
 
     if(novaMensagem === null || novaMensagem === ""){
         return;
     }
 
-    carta.mensagem = novaMensagem;
+    await db.collection("cartas").doc(id).update({
+        mensagem: novaMensagem
+    });
 
-    localStorage.setItem("cartas", JSON.stringify(cartas));
-
-    atualizarTela();
+    await carregarCartasFirestore();
 }
+
+
 
 // atualizar tela
 function atualizarTela(){
@@ -175,6 +188,8 @@ function atualizarTela(){
 
     carregarCartas();
 }
+
+
 
 // CADASTRO
 function cadastrar(){
@@ -206,6 +221,8 @@ function cadastrar(){
 
 });
 }
+
+
 
 // LOGIN
 function login(){
@@ -240,6 +257,9 @@ function login(){
 });
 }
 
+
+
+//atualizar tela firestore
 function atualizarTelaFirestore(){
 
     lista.innerHTML = "";
@@ -248,8 +268,12 @@ function atualizarTelaFirestore(){
 }
 
 
+
+
 // BOTÃO DE TEMA
 let botaoTema = document.getElementById("toggle-theme");
+
+
 
 // carregar tema salvo
 let temaSalvo = localStorage.getItem("tema");
@@ -260,6 +284,8 @@ if(temaSalvo === "light"){
 
     botaoTema.innerHTML = "☀️";
 }
+
+
 
 // trocar tema
 botaoTema.addEventListener("click", function(){
@@ -292,6 +318,8 @@ if("serviceWorker" in navigator){
     });
 
 }
+
+
 
 function enviarEmail(mensagem, data){
 
