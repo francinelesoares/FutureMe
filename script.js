@@ -1,4 +1,5 @@
 
+emailjs.init("SUA_PUBLIC_KEY");
 // CONFIG FIREBASE
 
 const firebaseConfig = {
@@ -22,49 +23,54 @@ const db = firebase.firestore();
 
 // carregar cartas
 
+const lista = document.getElementById("lista-cartas");
+
 async function salvarCarta(){
 
     let mensagem = document.getElementById("mensagem").value;
-
     let data = document.getElementById("data").value;
 
     if(mensagem === "" || data === ""){
-
         alert("Preencha todos os campos!");
-
         return;
     }
 
-    // usuário logado
     let usuario = auth.currentUser;
 
     if(!usuario){
-
         alert("Faça login primeiro!");
-
         return;
     }
 
-    // salvar no firestore
-    await db.collection("cartas").add({
+    try{
 
-        mensagem: mensagem,
+        let docRef = await db.collection("cartas").add({
+            mensagem: mensagem,
+            data: data,
+            userId: usuario.uid,
+            criadoEm: new Date()
+        });
 
-        data: data,
+        let carta = {
+            id: docRef.id,
+            mensagem: mensagem,
+            data: data,
+            userId: usuario.uid
+        };
 
-        userId: usuario.uid,
+        mostrarCarta(carta);
 
-        criadoEm: new Date()
+        alert("Carta salva!");
 
-    });
+        document.getElementById("mensagem").value = "";
+        document.getElementById("data").value = "";
 
-    alert("Carta salva!");
+    }catch(error){
 
-    document.getElementById("mensagem").value = "";
+        console.log(error);
+        alert("Erro ao salvar carta");
 
-    document.getElementById("data").value = "";
-
-    carregarCartasFirestore();
+    }
 }
 
 function mostrarCarta(carta){
@@ -73,43 +79,14 @@ function mostrarCarta(carta){
 
     novaCarta.classList.add("carta");
 
-    novaCarta.setAttribute("data-id", carta.id);
-
     novaCarta.innerHTML = `
         <h3>${carta.data}</h3>
+        <p>${carta.mensagem}</p>
 
-        <p class="texto-carta">
-            ${carta.mensagem}
-        </p>
-
-        <button class="btn-editar">
-            Editar
-        </button>
-
-        <button class="btn-excluir">
+        <button onclick="removerCarta('${carta.id}')">
             Excluir
         </button>
     `;
-
-    // BOTÃO EXCLUIR
-    let btnExcluir = novaCarta.querySelector(".btn-excluir");
-
-    btnExcluir.addEventListener("click", function(){
-
-        novaCarta.remove();
-
-        removerCarta(carta.id);
-
-    });
-
-    // BOTÃO EDITAR
-    let btnEditar = novaCarta.querySelector(".btn-editar");
-
-    btnEditar.addEventListener("click", function(){
-
-        editarCarta(carta.id);
-
-    });
 
     lista.appendChild(novaCarta);
 }
@@ -117,32 +94,46 @@ function mostrarCarta(carta){
 // carregar cartas
 async function carregarCartasFirestore(){
 
+
     lista.innerHTML = "";
 
     let usuario = auth.currentUser;
 
     if(!usuario){
+
+        console.log("Usuário não logado");
+
         return;
     }
 
-    let snapshot = await db
-    .collection("cartas")
-    .where("userId", "==", usuario.uid)
-    .get();
+    try{
 
-    snapshot.forEach((doc) => {
+        let snapshot = await db
+        .collection("cartas")
+        .where("userId", "==", usuario.uid)
+        .get();
 
-        let carta = {
+        console.log(snapshot.docs);
 
-            id: doc.id,
+        snapshot.forEach((doc) => {
 
-            ...doc.data()
+            let carta = {
 
-        };
+                id: doc.id,
 
-        mostrarCarta(carta);
+                ...doc.data()
 
-    });
+            };
+
+            mostrarCarta(carta);
+
+        });
+
+    }catch(error){
+
+        console.log(error);
+
+    }
 
 }
 
@@ -287,7 +278,45 @@ botaoTema.addEventListener("click", function(){
 
         botaoTema.innerHTML = "🌙";
     }
-
 });
 
-console.log("JS funcionando");
+if("serviceWorker" in navigator){
+
+    navigator.serviceWorker
+    .register("sw.js")
+
+    .then(() => {
+
+        console.log("Service Worker registrado!");
+
+    });
+
+}
+
+function enviarEmail(mensagem, data){
+
+    let parametros = {
+
+        mensagem: mensagem,
+
+        data: data
+
+    };
+
+    emailjs.send(
+
+        "SEU_SERVICE_ID",
+
+        "SEU_TEMPLATE_ID",
+
+        parametros
+
+    )
+
+    .then(() => {
+
+        console.log("Email enviado!");
+
+    });
+
+}
