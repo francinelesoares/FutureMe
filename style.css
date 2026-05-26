@@ -325,3 +325,39 @@ body.light .subtitulo {
 
     text-decoration: underline;
 }
+
+.auth-links {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-bottom: 10px;
+
+    gap: 10px;
+}
+
+.auth-text,
+.reset-password {
+
+    font-size: 14px;
+
+    color: #C4B5FD;
+}
+
+.auth-text span {
+
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+.auth-text span:hover,
+.reset-password:hover {
+
+    text-decoration: underline;
+
+    cursor: pointer;
+}
