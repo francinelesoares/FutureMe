@@ -307,3 +307,21 @@ body.light .subtitulo {
     display: block;
     margin-top: 25px;
 }
+
+.reset-password {
+
+    text-align: center;
+
+    font-size: 14px;
+
+    color: #C4B5FD;
+
+    cursor: pointer;
+
+    margin-top: -5px;
+}
+
+.reset-password:hover {
+
+    text-decoration: underline;
+}

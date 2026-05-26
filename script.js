@@ -50,8 +50,11 @@ async function salvarCarta(){
             mensagem: mensagem,
             data: data,
             userId: usuario.uid,
+            email: usuario.email,
             criadoEm: new Date()
         });
+
+        enviarEmail(mensagem, data);
 
         let carta = {
             id: docRef.id,
@@ -321,29 +324,67 @@ if("serviceWorker" in navigator){
 
 
 
+
+//enviar emaill
 function enviarEmail(mensagem, data){
 
     let parametros = {
-
         mensagem: mensagem,
-
-        data: data
-
+        data: data,
+        para_email: auth.currentUser.email
     };
 
     emailjs.send(
-
         "SEU_SERVICE_ID",
-
         "SEU_TEMPLATE_ID",
-
         parametros
-
     )
+    .then(() => {
+        console.log("Email enviado!");
+    })
+    .catch((error) => {
+        console.log(error);
+        alert("Erro ao enviar email.");
+    });
+}
+
+
+
+// resetar senha
+function resetarSenha(){
+
+    let email = document.getElementById("email").value;
+
+    if(email === ""){
+
+        alert("Digite seu email primeiro.");
+
+        return;
+    }
+
+    auth.sendPasswordResetEmail(email)
 
     .then(() => {
 
-        console.log("Email enviado!");
+        alert("Email de recuperação enviado!");
+
+    })
+
+    .catch((error) => {
+
+        if(error.code === "auth/user-not-found"){
+
+            alert("Usuário não encontrado.");
+
+        }else if(error.code === "auth/invalid-email"){
+
+            alert("Email inválido.");
+
+        }else{
+
+            alert("Erro ao enviar email.");
+
+        }
 
     });
 
