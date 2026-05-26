@@ -184,6 +184,8 @@ function cadastrar(){
 
     .then(() => {
 
+        enviarEmailCadastro(email);
+
         alert("Conta criada com sucesso!");
 
         carregarCartasFirestore();
@@ -336,29 +338,32 @@ function enviarEmail(mensagem, data){
 
     let usuario = auth.currentUser;
 
-    if(!usuario){
-        return;
-    }
-
     let parametros = {
+
+        para_email: usuario.email,
+
         mensagem: mensagem,
-        data: data,
-        para_email: usuario.email
+
+        data: data
+
     };
 
     emailjs.send(
-        "SEU_SERVICE_ID",
-        "SEU_TEMPLATE_ID",
+
+        service_laa440g,
+
+        template_vkpol99,
+
         parametros
+
     )
 
-    .then(() => {
-        console.log("Email enviado!");
-    })
+    .then(()=>{
 
-    .catch((error) => {
-        console.log(error);
+        console.log("Carta enviada!");
+
     });
+
 }
 
 // SERVICE WORKER
@@ -380,3 +385,37 @@ auth.onAuthStateChanged((usuario) => {
     }
 
 });
+
+
+// EMAIL DE BOAS-VINDAS
+function enviarEmailCadastro(email){
+
+    let parametros = {
+
+        para_email: email
+
+    };
+
+    emailjs.send(
+
+        service_laa440g,
+
+        template_nlu3imq,
+
+        parametros
+
+    )
+
+    .then(() => {
+
+        console.log("Email de boas-vindas enviado!");
+
+    })
+
+    .catch((error) => {
+
+        console.log(error);
+
+    });
+
+}
