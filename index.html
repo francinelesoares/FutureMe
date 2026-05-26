@@ -2,25 +2,37 @@
 <html lang="pt-BR">
 
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>FutureMe</title>
 
-    <!-- Fonte -->
+    <!-- FONTES -->
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
+
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
 
     <!-- CSS -->
+
     <link rel="stylesheet" href="style.css">
+
+    <!-- PWA -->
+
     <link rel="manifest" href="manifest.json">
+
 </head>
 
 <body>
 
     <div class="container">
+
+        <!-- TOPO -->
 
         <div class="topo">
 
@@ -32,54 +44,80 @@
 
         </div>
 
+        <!-- SUBTÍTULO -->
+
         <p class="subtitulo">
             Converse com sua versão do futuro.
         </p>
 
-        <h2 id="auth-title">Entrar</h2>
-        
-        <button id="btn-auth" onclick="login()">
-            Entrar
-        </button>
 
-        <div class="auth-links">
-        
-            <p class="auth-text">
-                Não tem conta?
-                <span onclick="mostrarCadastro()">
-                    Cadastre-se
-                </span>
-            </p>
-        
-            <p class="reset-password" onclick="resetarSenha()">
-                Esqueceu a senha?
-            </p>
-        
+        <!-- LOGIN/CADASTRO -->
+
+        <div class="auth-box">
+
+            <h2 id="auth-title">
+                Entrar
+            </h2>
+
+
+            <input type="email" id="email" placeholder="Seu email">
+
+
+            <input type="password" id="senha" placeholder="Sua senha">
+
+
+            <button id="btn-auth" onclick="login()">
+                Entrar
+            </button>
+
+
+            <div class="auth-links">
+
+                <p class="auth-text">
+
+                    Não tem conta?
+
+                    <span onclick="mostrarCadastro()">
+
+                        Cadastre-se
+
+                    </span>
+
+                </p>
+
+
+                <p class="reset-password" onclick="resetarSenha()">
+
+                    Esqueceu a senha?
+
+                </p>
+
+            </div>
+
         </div>
 
-        <input type="email" id="email" placeholder="Seu email">
 
-        <input type="password" id="senha" placeholder="Sua senha">
-
-        <button onclick="cadastrar()">
-            Cadastrar
-        </button>
-
-        <button onclick="login()">
-            Login
-        </button>
+        <!-- CARTAS -->
 
         <textarea id="mensagem" placeholder="Escreva sua mensagem..."></textarea>
 
+
         <input id="data" type="date">
 
+
         <button onclick="salvarCarta()">
+
             Salvar carta
+
         </button>
+
+
+        <!-- LISTA DE CARTAS -->
 
         <div id="lista-cartas"></div>
 
     </div>
+
 
     <!-- FIREBASE -->
 
@@ -89,7 +127,13 @@
 
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 
+
+    <!-- EMAILJS -->
+
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+
+    <!-- JAVASCRIPT -->
 
     <script src="script.js"></script>
 
