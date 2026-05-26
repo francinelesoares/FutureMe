@@ -389,3 +389,50 @@ function resetarSenha(){
     });
 
 }
+
+
+
+// alternar entre login e cadastro
+let modoCadastro = false;
+
+function mostrarCadastro(){
+
+    modoCadastro = !modoCadastro;
+
+    let titulo = document.getElementById("auth-title");
+
+    let botao = document.getElementById("btn-auth");
+
+    let texto = document.querySelector(".auth-text");
+
+    if(modoCadastro){
+
+        titulo.innerText = "Criar conta";
+
+        botao.innerText = "Cadastrar";
+
+        botao.setAttribute("onclick", "cadastrar()");
+
+        texto.innerHTML = `
+            Já tem conta?
+            <span onclick="mostrarCadastro()">
+                Entrar
+            </span>
+        `;
+
+    }else{
+
+        titulo.innerText = "Entrar";
+
+        botao.innerText = "Entrar";
+
+        botao.setAttribute("onclick", "login()");
+
+        texto.innerHTML = `
+            Não tem conta?
+            <span onclick="mostrarCadastro()">
+                Cadastre-se
+            </span>
+        `;
+    }
+}
